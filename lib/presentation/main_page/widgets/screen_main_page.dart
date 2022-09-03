@@ -1,16 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:netflix_clone/core/colors.dart';
+import 'package:netflix_clone/presentation/downloads/downloads.dart';
+import 'package:netflix_clone/presentation/fast_laugh/fast_laugh.dart';
 import 'package:netflix_clone/presentation/main_page/widgets/bottom_nav.dart';
+import 'package:netflix_clone/presentation/new_and_hot/screen_new_and_hot.dart';
+import 'package:netflix_clone/presentation/screen_home/screen_home.dart';
+import 'package:netflix_clone/presentation/search/screen_search.dart';
 
 class ScreenMainPage extends StatelessWidget {
-  const ScreenMainPage({Key? key}) : super(key: key);
+  ScreenMainPage({Key? key}) : super(key: key);
 
+  final _pages = [
+    ScreenHome(),
+    ScreenNewAndHot(),
+    ScreenFastLaugh(),
+    ScreenSearch(),
+    ScreenDownloads()
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Center(
-        child: Text("grf"),
+      backgroundColor: kBackgroundColor,
+      body: SafeArea(
+        child: ValueListenableBuilder(
+            valueListenable: indexNotifier,
+            builder: (context, int index, _) {
+              return _pages[index];
+            }),
       ),
       bottomNavigationBar: BottomNavigtionWidget(),
     );

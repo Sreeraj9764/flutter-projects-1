@@ -1,21 +1,41 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/colors.dart';
+
+ValueNotifier<int> indexNotifier = ValueNotifier(0);
+
 class BottomNavigtionWidget extends StatelessWidget {
-  BottomNavigtionWidget({Key? key}) : super(key: key);
+  const BottomNavigtionWidget({Key? key}) : super(key: key);
 
   final List<BottomNavigationBarItem> items = const [
     BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-    BottomNavigationBarItem(icon: Icon(Icons.face), label: "New & Hot"),
-    BottomNavigationBarItem(icon: Icon(Icons.home), label: "Fast Laughs"),
-    BottomNavigationBarItem(icon: Icon(Icons.home), label: "Search"),
-    BottomNavigationBarItem(icon: Icon(Icons.home), label: "Donloads"),
+    BottomNavigationBarItem(icon: Icon(Icons.collections), label: "New & Hot"),
+    BottomNavigationBarItem(
+        icon: Icon(Icons.emoji_emotions), label: "Fast Laughs"),
+    BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
+    BottomNavigationBarItem(icon: Icon(Icons.download), label: "Donloads"),
   ];
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      items: items,
-      currentIndex: 0,
-      type: BottomNavigationBarType.fixed,
-    );
+    return ValueListenableBuilder(
+        valueListenable: indexNotifier,
+        builder: (context, int newIndex, _) {
+          return BottomNavigationBar(
+            elevation: 0,
+            onTap: (value) {
+              indexNotifier.value = value;
+            },
+            backgroundColor: kBackgroundColor,
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.grey,
+            selectedIconTheme: const IconThemeData(color: Colors.white),
+            unselectedIconTheme: const IconThemeData(color: Colors.grey),
+            unselectedLabelStyle:
+                const TextStyle(overflow: TextOverflow.ellipsis),
+            items: items,
+            currentIndex: newIndex,
+            type: BottomNavigationBarType.fixed,
+          );
+        });
   }
 }
