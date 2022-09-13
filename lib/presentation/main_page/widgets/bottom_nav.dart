@@ -13,7 +13,7 @@ class BottomNavigtionWidget extends StatelessWidget {
     BottomNavigationBarItem(
         icon: Icon(Icons.emoji_emotions), label: "Fast Laughs"),
     BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
-    BottomNavigationBarItem(icon: Icon(Icons.download), label: "Donloads"),
+    BottomNavigationBarItem(icon: Icon(Icons.download), label: "Downloads"),
   ];
   @override
   Widget build(BuildContext context) {
