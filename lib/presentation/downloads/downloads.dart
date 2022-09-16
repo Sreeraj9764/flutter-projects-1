@@ -1,8 +1,11 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:netflix_clone/application/downloads/downloads_bloc.dart';
 import 'package:netflix_clone/core/colors.dart';
 import 'package:netflix_clone/core/constants.dart';
 import 'package:netflix_clone/core/sizeconfig.dart';
+import 'package:netflix_clone/infrastrcture/networkHelper.dart';
 import 'package:netflix_clone/presentation/widgets/app_bar_widget.dart';
 
 class ScreenDownloads extends StatelessWidget {
@@ -84,24 +87,22 @@ class Section2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig siz = SizeConfig(context);
-    List<String> imageList = [
-      "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/vwq5iboxYoaSpOmEQrhq9tHicq7.jpg",
-      "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/ujr5pztc1oitbe7ViMUOilFaJ7s.jpg",
-      "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/wKiOkZTN9lUUUNZLmtnwubZYONg.jpg"
-    ];
-
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      BlocProvider.of<DownloadsBloc>(context)
+          .add(const DownloadsEvent.getDownloadsImage());
+    });
     Size size = MediaQuery.of(context).size;
     return Column(
       children: [
-        Text(
+        const Text(
           "Indroducing Downloads for You",
           style: TextStyle(
               fontSize: 20, color: kWhiteColor, fontWeight: FontWeight.w900),
           textAlign: TextAlign.center,
         ),
         kHeight(20),
-        const Center(
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
           child: Text(
             "Today we’re launching Downloads For You, a new feature that automatically downloads,recommended shows or movies to your mobile device based on your\n tastes",
             style: TextStyle(
@@ -112,27 +113,38 @@ class Section2 extends StatelessWidget {
         SizedBox(
           width: size.width,
           height: size.width,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              CircleAvatar(
-                backgroundColor: Colors.grey.withOpacity(0.5),
-                radius: size.width * 0.4,
-              ),
-              DownloadImages(
-                edgeInsets: const EdgeInsets.only(left: 170),
-                image: imageList[0],
-                angle: 10,
-              ),
-              DownloadImages(
-                edgeInsets: const EdgeInsets.only(right: 170),
-                image: imageList[1],
-                angle: -10,
-              ),
-              DownloadImages(
-                  edgeInsets: const EdgeInsets.only(bottom: 10),
-                  image: imageList[2])
-            ],
+          child: BlocBuilder<DownloadsBloc, DownloadsState>(
+            builder: (context, state) {
+              return state.isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : state.downloadsFailureOrSuccessOption.isSome()
+                      ? Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Colors.grey.withOpacity(0.5),
+                              radius: size.width * 0.4,
+                            ),
+                            DownloadImages(
+                              edgeInsets: const EdgeInsets.only(left: 170),
+                              image:
+                                  '$kImageBaseUrl${state.downloads[0].posterPath}',
+                              angle: 10,
+                            ),
+                            DownloadImages(
+                              edgeInsets: const EdgeInsets.only(right: 170),
+                              image:
+                                  '$kImageBaseUrl${state.downloads[1].posterPath}',
+                              angle: -10,
+                            ),
+                            DownloadImages(
+                                edgeInsets: const EdgeInsets.only(bottom: 10),
+                                image:
+                                    '$kImageBaseUrl${state.downloads[2].posterPath}')
+                          ],
+                        )
+                      : Text("Something Wrong");
+            },
           ),
         ),
       ],
