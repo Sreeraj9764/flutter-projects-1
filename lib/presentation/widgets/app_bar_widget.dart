@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:netflix_clone/core/colors.dart';
 import 'package:netflix_clone/core/constants.dart';
 
 class AppBarWidget extends StatelessWidget {
@@ -17,7 +18,7 @@ class AppBarWidget extends StatelessWidget {
         kWidth(10),
         Text(
           title,
-          style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
         ),
         const Spacer(),
         icon != null
@@ -31,7 +32,14 @@ class AppBarWidget extends StatelessWidget {
         Container(
           height: 40,
           width: 40,
-          color: Colors.blue,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6),
+            color: Colors.blue,
+          ),
+          child: const Icon(
+            Icons.person,
+            color: kWhiteColor,
+          ),
         ),
         kWidth(10)
       ],

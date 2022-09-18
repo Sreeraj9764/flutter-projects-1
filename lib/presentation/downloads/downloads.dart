@@ -26,7 +26,7 @@ class ScreenDownloads extends StatelessWidget {
             backgroundColor: Colors.transparent,
             stretch: true,
             flexibleSpace: PreferredSize(
-                preferredSize: Size.fromHeight(50),
+                preferredSize: Size.fromHeight(60),
                 child: AppBarWidget(title: "Downloads", icon: Icons.cast))),
         SliverList(delegate: SliverChildListDelegate(widgets))
       ],
@@ -143,7 +143,7 @@ class Section2 extends StatelessWidget {
                                     '$kImageBaseUrl${state.downloads[2].posterPath}')
                           ],
                         )
-                      : Text("Something Wrong");
+                      : const Center(child: Text("Something Wrong"));
             },
           ),
         ),
