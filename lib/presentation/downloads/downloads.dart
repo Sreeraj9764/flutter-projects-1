@@ -122,7 +122,7 @@ class Section2 extends StatelessWidget {
                           alignment: Alignment.center,
                           children: [
                             CircleAvatar(
-                              backgroundColor: Colors.grey.withOpacity(0.5),
+                              backgroundColor: Colors.grey.withOpacity(0.3),
                               radius: size.width * 0.4,
                             ),
                             DownloadImages(

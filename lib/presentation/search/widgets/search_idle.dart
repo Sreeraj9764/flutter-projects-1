@@ -4,6 +4,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:netflix_clone/application/downloads/downloads_bloc.dart';
+import 'package:netflix_clone/application/search/search_bloc.dart';
 import 'package:netflix_clone/presentation/search/widgets/title_text.dart';
 
 import '../../../core/colors.dart';
@@ -27,7 +28,7 @@ class SearchIdleWidget extends StatelessWidget {
             style: kGetTextStyle(kWhiteColor, 22, FontWeight.bold)),
         kHeight(10),
         Expanded(
-          child: BlocConsumer<DownloadsBloc, DownloadsState>(
+          child: BlocConsumer<SearchBloc, SearchState>(
             listener: (context, state) {
               BlocProvider.of<DownloadsBloc>(context)
                   .add(const DownloadsEvent.getDownloadsImage());
@@ -36,11 +37,11 @@ class SearchIdleWidget extends StatelessWidget {
               return ListView.separated(
                   itemBuilder: (context, index) => TopSearchItemTile(
                         listImage:
-                            "$kImageBaseUrl${state.downloads[index].posterPath}",
-                        title: "${state.downloads[index].title}",
+                            "$kImageBaseUrl${state.idleList[index].posterPath}",
+                        title: "${state.idleList[index].title}",
                       ),
                   separatorBuilder: (context, index) => kHeight(10),
-                  itemCount: state.downloads.length);
+                  itemCount: state.idleList.length);
             },
           ),
         )
